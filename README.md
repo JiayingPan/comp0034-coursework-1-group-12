@@ -1,5 +1,26 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=6685294&assignment_repo_type=AssignmentRepo)
-# COMP0034 Coursework 1 template repository
+# COMP0034 Coursework 1 
+
+## Technical information
+### Repository URL
+[Repository](https://github.com/ucl-comp0035/coursework-1-JiayingPan.git)
+
+### Set-up instructions
+
+Assume that requirements will be installed from requirements.txt.
+
+If you have used any libraries that require set-up beyond `pip install ...` then use this section to explain any set-up
+instructions to be followed to run your coursework.
+
+
+## Explaination and evaluation of visulisation designs
+
+
+## Creation of the Ploty Dash app containing the visulisations
+
+
+## Evidence of the appropriate use of software engineering and data science tools
+
 
 The template repository contains a basic structure for coursework 1.
 
