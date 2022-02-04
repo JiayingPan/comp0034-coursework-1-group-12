@@ -26,12 +26,13 @@ class RecyclingData:
     def process_data_for_area(self, area):
         # Data for England
         self.recycling_eng = self.recycling.loc[self.recycling['location_x'] == 'Camden - Bloomsbury']
-        by_yr_e = self.recycling_eng.sort_values('utc', ascending=False)
-        by_yr_e = by_yr_e.reset_index(drop=True)
+        #by_yr_e = self.recycling_eng.sort_values('utc', ascending=False)
+        #by_yr_e = by_yr_e.reset_index(drop=True)
 
         # Data for the selected area
         self.recycling_area = self.recycling.loc[self.recycling['location_x'] == area]
         # Calculate the change from the previous year
-        by_yr = self.recycling_area.sort_values('utc', ascending=False)
-        by_yr = by_yr.reset_index(drop=True)
+        #by_yr = self.recycling_area.sort_values('utc', ascending=False)
+        #by_yr = by_yr.reset_index(drop=True)
+
 
