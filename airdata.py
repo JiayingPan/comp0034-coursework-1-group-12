@@ -25,7 +25,7 @@ class RecyclingData:
 
     def process_data_for_area(self, area):
         # Data for England
-        self.recycling_eng = self.recycling.loc[self.recycling['location_x'] == 'Camden - Bloomsbury']
+        self.recycling_eng = self.recycling.loc[self.recycling['location_x'] == 'London']
         #by_yr_e = self.recycling_eng.sort_values('utc', ascending=False)
         #by_yr_e = by_yr_e.reset_index(drop=True)
 
