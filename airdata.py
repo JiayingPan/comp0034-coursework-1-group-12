@@ -2,6 +2,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from datetime import datetime
+import datetime
 
 class RecyclingData:
     """Class for retrieving and structuring the data.
@@ -14,6 +15,7 @@ class RecyclingData:
         self.area_list = []
         self.recycling_eng = []
         self.recycling_area = []
+        self.day_data=[]
         self.get_data()
 
     def get_data(self):
@@ -37,5 +39,12 @@ class RecyclingData:
         # Calculate the change from the previous year
         #by_yr = self.recycling_area.sort_values('utc', ascending=False)
         #by_yr = by_yr.reset_index(drop=True)
+
+    def process_data_for_single_day (self,area,start_date_str):
+        start_date=pd.to_datetime(start_date_str)
+        end_date = start_date+datetime.timedelta(days=1)
+        end_date_str = end_date.strftime('%B %d, %Y')
+        mask = (self.recycling['utc'] > start_date_str)&(self.recycling['utc']<=end_date_str)&(self.recycling['location_x'] == area)
+        self.day_data = self.recycling.loc[mask]
 
 

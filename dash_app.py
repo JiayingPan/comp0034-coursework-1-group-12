@@ -45,7 +45,7 @@ app.layout = dbc.Container(fluid=True, children=[
     # Second row here
     dbc.Row([
         # This is for the London area selector and the statistics panel.
-        dbc.Col(width=3, children=[
+        dbc.Col(width=2, children=[
             html.H5('Select Period'),
             dcc.DatePickerRange(
              id='my-date-picker-range',
@@ -55,21 +55,45 @@ app.layout = dbc.Container(fluid=True, children=[
              end_date=date(2021, 12, 31)
             ),
             html.H5("Select Area"),
-            dcc.Dropdown(id="area-select",
+            dcc.Dropdown(id="area-select_p",
                          options=[{"label": x, "value": x}
                                   for x in data.area_list],
                 value=""),
             html.H5("Select Particular Matter"),
-            dcc.Dropdown(id="matter-select",
+            dcc.Dropdown(id="matter-select_p",
                          options=[{"label": x, "value": x}
                                   for x in airtype_list],
                 value="PM2.5"),
         ]),
 
         # Add the second column here. This is for the figure.
-        dbc.Col(width=9, children=[
+        dbc.Col(width=10, children=[
         dcc.Graph(id='recycle-chart', figure=fig_rc)
         ]),
+    ]),
+    dbc.Row([
+        dbc.Col(width=2, children=[
+                dcc.DatePickerSingle(
+        id='my-date-picker-single',
+        min_date_allowed=date(2021, 1, 1),
+        max_date_allowed=date(2021, 12, 31),
+        initial_visible_month=date(2021, 1, 1),
+        date=date(2021, 1, 1)
+    ),
+    html.H5("Select Area"),
+    dcc.Dropdown(id="area-select_d",
+                 options=[{"label": x, "value": x}
+                           for x in data.area_list],
+                value=""),
+    html.H5("Select Particular Matter"),
+    dcc.Dropdown(id="matter-select_d",
+                 options=[{"label": x, "value": x}
+                          for x in airtype_list],
+                value="PM2.5")
+        ]),
+    dbc.Col([
+        html.Div(id='output-container-date-picker-single')
+    ])
     ])
 ])
 
@@ -77,8 +101,8 @@ app.layout = dbc.Container(fluid=True, children=[
     Output("recycle-chart", "figure"),
     Input('my-date-picker-range', 'start_date'),
     Input('my-date-picker-range', 'end_date'),
-    [Input("area-select", "value")],
-    [Input("matter-select", "value")],
+    Input("area-select_p", "value"),
+    Input("matter-select_p", "value"),
 )
 def update_output(start_date, end_date, area_select, matter_select):
     if start_date is not None:
@@ -87,12 +111,34 @@ def update_output(start_date, end_date, area_select, matter_select):
     fig_rc= rc.create_chart(area_select, matter_select)
     return fig_rc
 
+@app.callback(
+    Output('output-container-date-picker-single', 'children'),
+    Input('my-date-picker-single', 'date'),
+    Input("area-select_d", "value"),
+    Input("matter-select_d", "value")
+    )
+def update_output(date_value,area,matter):
+    if date_value is not None:
+        date_object = date.fromisoformat(date_value)
+        date_string = date_object.strftime('%B %d, %Y')
+        data.process_data_for_single_day(area, date_value)
+        ####
+        card = dbc.Card(className="bg-dark text-light", children=[
+        dbc.CardBody([
+            html.H4(area, id="card-name", className="card-title"),
+            html.Br(),
+            html.H6("Maximum"+matter, className="card-title"),
+            html.H4(data.day_data[matter].max(), className="card-text text-light"),
+            html.Br(),
+            html.H6("Minimum"+matter, className="card-title"),
+            html.H4(data.day_data[matter].min(), className="card-text text-light"),
+            html.H6("Sum".format(data.day_data[matter].sum()), className="card-title text-light"),
+            html.Br()
+        ])
+    ])
+        return card
 
-# def render_output_panel(area_select, matter_select,date1,date2):
-#    data.process_data_for_area(
-#        area_select,start,end)
-#    fig_rc=rc.create_chart(area_select, matter_select)
-#    return fig_rc
+
 
 
 if __name__ == '__main__':
