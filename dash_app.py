@@ -84,7 +84,7 @@ app.layout = dbc.Container(fluid=True, children=[
     dcc.Dropdown(id="area-select_d",
                  options=[{"label": x, "value": x}
                            for x in data.area_list],
-                value=""),
+                value="London"),
     html.H5("Select Particular Matter"),
     dcc.Dropdown(id="matter-select_d",
                  options=[{"label": x, "value": x}
