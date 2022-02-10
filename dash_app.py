@@ -7,11 +7,11 @@ import dash
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
+import datetime
 from dash import dcc
 from dash import html
 from dash import Output, Input
 from datetime import date
-import datetime
 from airdata import RecyclingData
 from chart import RecyclingChart
 
@@ -52,6 +52,7 @@ app.layout = dbc.Container(fluid=True, children=[
              min_date_allowed=date(2021, 1, 1),
              max_date_allowed=date(2021, 12, 31),
              initial_visible_month=date(2021, 1, 1),
+             start_date=date(2021,1,1),
              end_date=date(2021, 12, 31)
             ),
             html.H5("Select Area"),
@@ -105,7 +106,7 @@ app.layout = dbc.Container(fluid=True, children=[
     Input("matter-select_p", "value"),
 )
 def update_output(start_date, end_date, area_select, matter_select):
-    if start_date is not None:
+    if start_date and area_select and matter_select is not None:
       data.process_data_for_area(
         area_select, start_date, end_date)
     fig_rc= rc.create_chart(area_select, matter_select)
@@ -118,7 +119,7 @@ def update_output(start_date, end_date, area_select, matter_select):
     Input("matter-select_d", "value")
     )
 def update_output(date_value,area,matter):
-    if date_value is not None:
+    if date_value and area and matter is not None:
         date_object = date.fromisoformat(date_value)
         date_string = date_object.strftime('%B %d, %Y')
         data.process_data_for_single_day(area, date_value)
@@ -132,7 +133,8 @@ def update_output(date_value,area,matter):
             html.Br(),
             html.H6("Minimum"+matter, className="card-title"),
             html.H4(data.day_data[matter].min(), className="card-text text-light"),
-            html.H6("Sum".format(data.day_data[matter].sum()), className="card-title text-light"),
+            html.H6("Mean", className="card-title text-light"),
+            html.H4("{:,.0f}".format(data.day_data[matter].mean()), className="card-text text-light"),
             html.Br()
         ])
     ])
