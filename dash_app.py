@@ -34,7 +34,7 @@ external_stylesheets = [dbc.themes.MINTY]
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 # assume you have a "long-form" data frame see https://plotly.com/python/px-arguments/ for more options
-app.layout = dbc.Container(fluid=True, children=[
+app.layout = html.Div([
     html.Br(),
     # First row here
     dbc.Row(dbc.Col(children=[
@@ -42,60 +42,77 @@ app.layout = dbc.Container(fluid=True, children=[
         html.P('PM2.5 & PM10',
                className='lead')
     ])),
-
-    # Second row here
-    dbc.Row([
-        # This is for the London area selector and the statistics panel.
-        dbc.Col(width=2, children=[
-            html.H5('Select Period'),
-            dcc.DatePickerRange(
-                id='my-date-picker-range',
-                min_date_allowed=date(2021, 1, 1),
-                max_date_allowed=date(2021, 12, 31),
-                initial_visible_month=date(2021, 1, 1),
-                start_date=date(2021, 1, 1),
-                end_date=date(2021, 12, 31)
-            ),
-            html.H5("Select Area"),
-            dcc.Dropdown(id="area-select_p",
-                         options=[{"label": x, "value": x}
-                                  for x in data.area_list],
-                         value=""),
-            html.H5("Select Particular Matter"),
-            dcc.Dropdown(id="matter-select_p",
-                         options=[{"label": x, "value": x}
-                                  for x in airtype_list],
-                         value="PM2.5"),
-        ]),
-
-        # Add the second column here. This is for the figure.
-        dbc.Col(width=10, children=[
-            dcc.Graph(id='recycle-chart', figure=fig_rc)
-        ]),
-    ]),
-    dbc.Row([
-        dbc.Col(width=2, children=[
-                dcc.DatePickerSingle(
-                    id='my-date-picker-single',
-                    min_date_allowed=date(2021, 1, 1),
-                    max_date_allowed=date(2021, 12, 31),
-                    initial_visible_month=date(2021, 1, 1),
-                    date=date(2021, 1, 1)
-                ),
-            html.H5("Select Area"),
-            dcc.Dropdown(id="area-select_d",
-                         options=[{"label": x, "value": x}
-                                  for x in data.area_list],
-                         value="London"),
-            html.H5("Select Particular Matter"),
-            dcc.Dropdown(id="matter-select_d",
-                         options=[{"label": x, "value": x}
-                                  for x in airtype_list],
-                         value="PM2.5")
+    dcc.Tabs([
+        dcc.Tab(label='Daily Matters', children=[
+                dbc.Row([
+                    dbc.Col(width=4, children=[
+                        html.H5('Select Date'),
+                        dcc.DatePickerSingle(
+                            id='my-date-picker-single',
+                            min_date_allowed=date(2021, 1, 1),
+                            max_date_allowed=date(2021, 12, 31),
+                            initial_visible_month=date(2021, 1, 1),
+                            date=date(2021, 1, 1)
+                        ),
+                        html.H5("Select Area"),
+                        dcc.Dropdown(id="area-select_d",
+                                     options=[{"label": x, "value": x}
+                                              for x in data.area_list],
+                                     value="London"),
+                        html.H5("Select Particular Matter"),
+                        dcc.Dropdown(id="matter-select_d",
+                                     options=[{"label": x, "value": x}
+                                              for x in airtype_list],
+                                     value="PM2.5")
+                    ]),
+                    dbc.Col([
+                        html.Div(id='card'),
+                    ])
+                ])
                 ]),
-        dbc.Col([
-            html.Div(id='card'),
-        ])
+        dcc.Tab(label='Past Data', children=[
+                dbc.Row([
+                    # This is for the London area selector and the statistics panel.
+                    dbc.Col(width=4, children=[
+                        html.H5('Select Period'),
+                        dcc.DatePickerRange(
+                            id='my-date-picker-range',
+                            min_date_allowed=date(2021, 1, 1),
+                            max_date_allowed=date(2021, 12, 31),
+                            initial_visible_month=date(2021, 1, 1),
+                            start_date=date(2021, 1, 1),
+                            end_date=date(2021, 12, 31)
+                        ),
+                        html.H5("Select Area"),
+                        dcc.Dropdown(id="area-select_p",
+                                     options=[{"label": x, "value": x}
+                                              for x in data.area_list],
+                                     value=""),
+                        html.H5("Select Particular Matter"),
+                        dcc.Dropdown(id="matter-select_p",
+                                     options=[{"label": x, "value": x}
+                                              for x in airtype_list],
+                                     value="PM2.5"),
+                    ]),
+
+                    # Add the second column here. This is for the figure.
+                    dbc.Col(width=10, children=[
+                        dcc.Graph(id='recycle-chart', figure=fig_rc)
+                    ]),
+                ])
+                ]),
+        dcc.Tab(label='Tab three', children=[
+            dcc.Graph(
+                figure={
+                    'data': [
+                        {'x': [1, 2, 3], 'y': [2, 4, 3],
+                            'type': 'bar', 'name': 'SF'},
+                        {'x': [1, 2, 3], 'y': [5, 4, 3],
+                         'type': 'bar', 'name': u'Montréal'},
+                    ]
+                }
+            )
+        ]),
     ])
 ])
 
