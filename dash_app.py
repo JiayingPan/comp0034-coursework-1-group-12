@@ -54,26 +54,28 @@ app.layout = html.Div([
                             initial_visible_month=date(2021, 1, 1),
                             date=date(2021, 1, 1)
                         ),
+                    ]),
+                    dbc.Col(width=4, children=[
                         html.H5("Select Area"),
                         dcc.Dropdown(id="area-select_d",
                                      options=[{"label": x, "value": x}
                                               for x in data.area_list],
                                      value="London"),
+                    ]),
+                    dbc.Col(width=4, children=[
                         html.H5("Select Particular Matter"),
                         dcc.Dropdown(id="matter-select_d",
                                      options=[{"label": x, "value": x}
                                               for x in airtype_list],
                                      value="PM2.5")
                     ]),
-                    dbc.Col([
-                        html.Div(id='card'),
-                    ])
+                    html.Div(id='card')
                 ])
                 ]),
         dcc.Tab(label='Past Data', children=[
                 dbc.Row([
                     # This is for the London area selector and the statistics panel.
-                    dbc.Col(width=4, children=[
+                    dbc.Col(children=[
                         html.H5('Select Period'),
                         dcc.DatePickerRange(
                             id='my-date-picker-range',
@@ -83,22 +85,23 @@ app.layout = html.Div([
                             start_date=date(2021, 1, 1),
                             end_date=date(2021, 12, 31)
                         ),
+                    ]),
+                    dbc.Col(children=[
                         html.H5("Select Area"),
                         dcc.Dropdown(id="area-select_p",
                                      options=[{"label": x, "value": x}
                                               for x in data.area_list],
                                      value=""),
+                    ]),
+                    dbc.Col(children=[
                         html.H5("Select Particular Matter"),
                         dcc.Dropdown(id="matter-select_p",
                                      options=[{"label": x, "value": x}
                                               for x in airtype_list],
                                      value="PM2.5"),
                     ]),
-
+                    dcc.Graph(id='recycle-chart', figure=fig_rc)
                     # Add the second column here. This is for the figure.
-                    dbc.Col(width=10, children=[
-                        dcc.Graph(id='recycle-chart', figure=fig_rc)
-                    ]),
                 ])
                 ]),
         dcc.Tab(label='Tab three', children=[
