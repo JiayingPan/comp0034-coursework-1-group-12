@@ -8,6 +8,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
 import datetime
+import dash_daq as daq
 from dash import dcc
 from dash import html
 from dash import Output, Input
@@ -48,55 +49,56 @@ app.layout = dbc.Container(fluid=True, children=[
         dbc.Col(width=2, children=[
             html.H5('Select Period'),
             dcc.DatePickerRange(
-             id='my-date-picker-range',
-             min_date_allowed=date(2021, 1, 1),
-             max_date_allowed=date(2021, 12, 31),
-             initial_visible_month=date(2021, 1, 1),
-             start_date=date(2021,1,1),
-             end_date=date(2021, 12, 31)
+                id='my-date-picker-range',
+                min_date_allowed=date(2021, 1, 1),
+                max_date_allowed=date(2021, 12, 31),
+                initial_visible_month=date(2021, 1, 1),
+                start_date=date(2021, 1, 1),
+                end_date=date(2021, 12, 31)
             ),
             html.H5("Select Area"),
             dcc.Dropdown(id="area-select_p",
                          options=[{"label": x, "value": x}
                                   for x in data.area_list],
-                value=""),
+                         value=""),
             html.H5("Select Particular Matter"),
             dcc.Dropdown(id="matter-select_p",
                          options=[{"label": x, "value": x}
                                   for x in airtype_list],
-                value="PM2.5"),
+                         value="PM2.5"),
         ]),
 
         # Add the second column here. This is for the figure.
         dbc.Col(width=10, children=[
-        dcc.Graph(id='recycle-chart', figure=fig_rc)
+            dcc.Graph(id='recycle-chart', figure=fig_rc)
         ]),
     ]),
     dbc.Row([
         dbc.Col(width=2, children=[
                 dcc.DatePickerSingle(
-        id='my-date-picker-single',
-        min_date_allowed=date(2021, 1, 1),
-        max_date_allowed=date(2021, 12, 31),
-        initial_visible_month=date(2021, 1, 1),
-        date=date(2021, 1, 1)
-    ),
-    html.H5("Select Area"),
-    dcc.Dropdown(id="area-select_d",
-                 options=[{"label": x, "value": x}
-                           for x in data.area_list],
-                value="London"),
-    html.H5("Select Particular Matter"),
-    dcc.Dropdown(id="matter-select_d",
-                 options=[{"label": x, "value": x}
-                          for x in airtype_list],
-                value="PM2.5")
-        ]),
-    dbc.Col([
-        html.Div(id='output-container-date-picker-single')
-    ])
+                    id='my-date-picker-single',
+                    min_date_allowed=date(2021, 1, 1),
+                    max_date_allowed=date(2021, 12, 31),
+                    initial_visible_month=date(2021, 1, 1),
+                    date=date(2021, 1, 1)
+                ),
+            html.H5("Select Area"),
+            dcc.Dropdown(id="area-select_d",
+                         options=[{"label": x, "value": x}
+                                  for x in data.area_list],
+                         value="London"),
+            html.H5("Select Particular Matter"),
+            dcc.Dropdown(id="matter-select_d",
+                         options=[{"label": x, "value": x}
+                                  for x in airtype_list],
+                         value="PM2.5")
+                ]),
+        dbc.Col([
+            html.Div(id='card'),
+        ])
     ])
 ])
+
 
 @ app.callback(
     Output("recycle-chart", "figure"),
@@ -107,40 +109,51 @@ app.layout = dbc.Container(fluid=True, children=[
 )
 def update_output(start_date, end_date, area_select, matter_select):
     if start_date and area_select and matter_select is not None:
-      data.process_data_for_area(
-        area_select, start_date, end_date)
-    fig_rc= rc.create_chart(area_select, matter_select)
+        data.process_data_for_area(
+            area_select, start_date, end_date)
+    fig_rc = rc.create_chart(area_select, matter_select)
     return fig_rc
 
+
 @app.callback(
-    Output('output-container-date-picker-single', 'children'),
+    Output('card', 'children'),
     Input('my-date-picker-single', 'date'),
     Input("area-select_d", "value"),
     Input("matter-select_d", "value")
-    )
-def update_output(date_value,area,matter):
+)
+def update_output(date_value, area, matter):
     if date_value and area and matter is not None:
         date_object = date.fromisoformat(date_value)
         date_string = date_object.strftime('%B %d, %Y')
         data.process_data_for_single_day(area, date_value)
         ####
         card = dbc.Card(className="bg-dark text-light", children=[
-        dbc.CardBody([
-            html.H4(area, id="card-name", className="card-title"),
-            html.Br(),
-            html.H6("Maximum"+matter, className="card-title"),
-            html.H4(data.day_data[matter].max(), className="card-text text-light"),
-            html.Br(),
-            html.H6("Minimum"+matter, className="card-title"),
-            html.H4(data.day_data[matter].min(), className="card-text text-light"),
-            html.H6("Mean", className="card-title text-light"),
-            html.H4("{:,.0f}".format(data.day_data[matter].mean()), className="card-text text-light"),
-            html.Br()
+            dbc.CardBody([
+                html.H4(area, id="card-name", className="card-title"),
+                html.Br(),
+                html.H6("Maximum"+matter, className="card-title"),
+                html.H4(data.day_data[matter].max(),
+                        className="card-text text-light"),
+                html.Br(),
+                html.H6("Minimum"+matter, className="card-title"),
+                html.H4(data.day_data[matter].min(),
+                        className="card-text text-light"),
+                html.H6("Mean", className="card-title text-light"),
+                html.H4("{:,.0f}".format(
+                    data.day_data[matter].mean()), className="card-text text-light"),
+                html.Br(),
+                daq.Gauge(id='chart',
+                          color={"gradient": True, "ranges": {
+                              "green": [0, 12], "yellow":[12, 35], "red":[35, 55]}},
+                          value=data.day_data[matter].mean(),
+                          label=matter,
+                          max=100,
+                          min=0,
+                          ),
+                html.Br(),
+            ]),
         ])
-    ])
         return card
-
-
 
 
 if __name__ == '__main__':
