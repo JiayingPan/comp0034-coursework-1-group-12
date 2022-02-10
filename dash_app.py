@@ -42,7 +42,7 @@ app.layout = html.Div([
         html.P('PM2.5 & PM10',
                className='lead')
     ])),
-    dcc.Tabs([
+    dcc.Tabs(children=[
         dcc.Tab(label='Daily Matters', children=[
                 dbc.Row([
                     dbc.Col(width=4, children=[
@@ -54,22 +54,20 @@ app.layout = html.Div([
                             initial_visible_month=date(2021, 1, 1),
                             date=date(2021, 1, 1)
                         ),
-                    ]),
-                    dbc.Col(width=4, children=[
                         html.H5("Select Area"),
                         dcc.Dropdown(id="area-select_d",
                                      options=[{"label": x, "value": x}
                                               for x in data.area_list],
                                      value="London"),
-                    ]),
-                    dbc.Col(width=4, children=[
                         html.H5("Select Particular Matter"),
                         dcc.Dropdown(id="matter-select_d",
                                      options=[{"label": x, "value": x}
                                               for x in airtype_list],
-                                     value="PM2.5")
+                                     value="PM2.5"),
                     ]),
-                    html.Div(id='card')
+                    dbc.Col(children=[
+                        html.Div(id='card')
+                    ]),
                 ])
                 ]),
         dcc.Tab(label='Past Data', children=[
@@ -147,30 +145,31 @@ def update_output(date_value, area, matter):
         date_string = date_object.strftime('%B %d, %Y')
         data.process_data_for_single_day(area, date_value)
         ####
-        card = dbc.Card(className="bg-dark text-light", children=[
+        card = dbc.Card(className="card border-light mb-3", children=[
             dbc.CardBody([
-                html.H4(area, id="card-name", className="card-title"),
-                html.Br(),
-                html.H6("Maximum"+matter, className="card-title"),
-                html.H4(data.day_data[matter].max(),
-                        className="card-text text-light"),
-                html.Br(),
-                html.H6("Minimum"+matter, className="card-title"),
-                html.H4(data.day_data[matter].min(),
-                        className="card-text text-light"),
-                html.H6("Mean", className="card-title text-light"),
-                html.H4("{:,.0f}".format(
-                    data.day_data[matter].mean()), className="card-text text-light"),
-                html.Br(),
-                daq.Gauge(id='chart',
-                          color={"gradient": True, "ranges": {
-                              "green": [0, 12], "yellow":[12, 35], "red":[35, 55]}},
-                          value=data.day_data[matter].mean(),
-                          label=matter,
-                          max=100,
-                          min=0,
-                          ),
-                html.Br(),
+                dbc.Col(width=4, children=[
+                    html.H4(area, id="card-name", className="card-title"),
+                    html.Br(),
+                    daq.Gauge(id='chart',
+                              color={"gradient": True, "ranges": {
+                                  "green": [0, 12], "yellow":[12, 35], "red":[35, 55]}},
+                        value=data.day_data[matter].mean(),
+                        label=matter,
+                        max=100,
+                        min=0,
+                              ),
+                ]),
+                dbc.Col(children=[
+                    html.H6("Maximum"+matter, className="card-title"),
+                    html.H4(data.day_data[matter].max(),
+                        className="card-text text-dark"),
+                    html.H6("Minimum"+matter, className="card-title"),
+                    html.H4(data.day_data[matter].min(),
+                        className="card-text text-dark"),
+                    html.H6("Mean", className="card-title"),
+                    html.H4("{:,.0f}".format(
+                        data.day_data[matter].mean()), className="card-text text-dark"),
+                ]),
             ]),
         ])
         return card
