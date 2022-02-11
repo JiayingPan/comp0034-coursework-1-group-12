@@ -142,6 +142,7 @@ app.layout = html.Div([
                 dbc.Row([
                     # This is for the London area selector and the statistics panel.
                     dbc.Col(children=[
+                        html.Br(),
                         html.H6('Select Period'),
                         dcc.DatePickerRange(
                             id='my-date-picker-range',
@@ -153,6 +154,7 @@ app.layout = html.Div([
                         ),
                     ]),
                     dbc.Col(children=[
+                        html.Br(),
                         html.H6("Select Area"),
                         dcc.Dropdown(id="area-select_p",
                                      options=[{"label": x, "value": x}
@@ -160,6 +162,7 @@ app.layout = html.Div([
                                      value=""),
                     ]),
                     dbc.Col(children=[
+                        html.Br(),
                         html.H6("Select Particular Matter"),
                         dcc.Dropdown(id="matter-select_p",
                                      options=[{"label": x, "value": x}
