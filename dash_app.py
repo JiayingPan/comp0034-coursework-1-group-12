@@ -8,7 +8,6 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import datetime
 import dash_daq as daq
 from dash import dcc
 from dash import html
@@ -211,8 +210,8 @@ def update_map(date_slctd):
 )
 def update_output(date_value, area):
     if date_value and area is not None:
-        date_object = date.fromisoformat(date_value)
-        date_string = date_object.strftime('%B %d, %Y')
+        #date_object = date.fromisoformat(date_value)
+        #date_string = date_object.strftime('%B %d, %Y')
         data.process_data_for_single_day(area, date_value)
         ####
         card = dbc.Card(className="card border-light mb-3", children=[
