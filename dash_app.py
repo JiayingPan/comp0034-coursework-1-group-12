@@ -2,11 +2,12 @@
 # Import section modified 10/10/2021 to comply with changes in the Dash library.
 
 # Run this app with `python dash_app.py` and visit http://127.0.0.1:8050/ in your web browser.
-
+import math
 import dash
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import datetime
 import dash_daq as daq
 from dash import dcc
@@ -22,7 +23,23 @@ area = ''
 start = '2021-1-1'
 end = '2021-12-31'
 data.process_data_for_area(area, start, end)
+
 # Create the figures
+
+# First map showing the location of cities (mapbox)
+
+df = pd.read_csv("Data/min-max-avg.csv")
+mapbox_token = "pk.eyJ1Ijoic3RlcGhhbmllMDYyNSIsImEiOiJja3plcDl3NTQwa2xoMzFtcXdtMGx4Z3U4In0.HJZkpBQj0blh5xUoXXR-VA"  # Add your mapbox token here
+fig_mapbox = go.Figure()
+fig_mapbox.add_trace(go.Scattermapbox(lat=df["Latitude"], lon=df["Longitude"], text=df["Location"],
+                                      marker=go.Marker(size=12),
+                                      mode='markers+text', textposition="top center"))
+
+fig_mapbox.update_layout(width=450, height=410, margin=dict(l=20, r=0, t=25, b=0),
+                         hovermode='closest', showlegend=False,
+                         mapbox=dict(accesstoken=mapbox_token,
+                                     center=dict(lat=53.479489, lon=-2.245115), zoom=4.5))
+
 rc = RecyclingChart(data)
 airtype_list = ['PM2.5', 'PM10']
 airtype = 'PM2.5'
@@ -38,43 +55,84 @@ app.layout = html.Div([
     html.Br(),
     # First row here
     dbc.Row(dbc.Col(children=[
-        html.H1('Open Air Quality'),
-        html.P('PM2.5 & PM10',
-               className='lead')
+        html.H1('Open Air Quality', style = {'text-align': 'center'}),
+        html.P('Particular matters monitoring dashboard',
+               className='lead', style = {'text-align': 'center'})
     ])),
     dcc.Tabs(children=[
+
+        dcc.Tab(label='View Locations', children=[
+
+            # first row here
+            dbc.Row([
+                # This is for the London area selector and the statistics panel.
+            dbc.Col(width=6, children=[
+                    html.Br(),
+                    html.H5("scatter mapbox"),
+                    html.P('View geographic location of air quality in various UK cities:',
+                        className='lead'),
+                    html.P('London, Manchester, Cardiff and Edinburgh!'),
+                    dcc.Graph(id='scatter-map', figure=fig_mapbox),
+                    ]),
+                #]),
+
+                # Add the second column here. This is for the figure.
+            dbc.Col(width=6, children=[
+                html.Br(),
+                html.H5('heat map'),
+                    # Second row here
+                    dbc.Row([
+                        html.H6('Select date'),
+                        dcc.DatePickerSingle(id='map-date-picker-single',
+                                             min_date_allowed=date(2021, 1, 1),
+                                             max_date_allowed=date(2021, 12, 31),
+                                             initial_visible_month=date(2021, 1, 1),
+                                             date=date(2021, 1, 1)
+                                             ),
+                        html.Div(id='output-container-date-picker-single', children=[]),
+                        html.Br(),
+                        dcc.Graph(id='mapbox-heatmap', figure={}),
+                    ]),
+                ]),
+            ]),]),
+
+
         dcc.Tab(label='Daily Matters', children=[
                 dbc.Row([
                     dbc.Col(width=4, children=[
-                        html.H5('Select Date'),
+                        html.Br(),
+                        html.H6('Select Date'),
                         dcc.DatePickerSingle(
                             id='my-date-picker-single',
                             min_date_allowed=date(2021, 1, 1),
                             max_date_allowed=date(2021, 12, 31),
                             initial_visible_month=date(2021, 1, 1),
                             date=date(2021, 1, 1)
-                        ),
-                        html.H5("Select Area"),
+                            ),
+
+                        html.H6("Select Area"),
                         dcc.Dropdown(id="area-select_d",
                                      options=[{"label": x, "value": x}
                                               for x in data.area_list],
                                      value="London"),
-                        html.H5("Select Particular Matter"),
-                        dcc.Dropdown(id="matter-select_d",
-                                     options=[{"label": x, "value": x}
-                                              for x in airtype_list],
-                                     value="PM2.5"),
+                        html.Br(),
+
+                    dbc.Col(width=4, children=[
+                        dbc.Card(style={"width": "20rem"},color="primary", id='comment'),
                     ]),
+                ]),
+
                     dbc.Col(children=[
                         html.Div(id='card')
                     ]),
                 ])
                 ]),
+
         dcc.Tab(label='Past Data', children=[
                 dbc.Row([
                     # This is for the London area selector and the statistics panel.
                     dbc.Col(children=[
-                        html.H5('Select Period'),
+                        html.H6('Select Period'),
                         dcc.DatePickerRange(
                             id='my-date-picker-range',
                             min_date_allowed=date(2021, 1, 1),
@@ -85,38 +143,146 @@ app.layout = html.Div([
                         ),
                     ]),
                     dbc.Col(children=[
-                        html.H5("Select Area"),
+                        html.H6("Select Area"),
                         dcc.Dropdown(id="area-select_p",
                                      options=[{"label": x, "value": x}
                                               for x in data.area_list],
                                      value=""),
                     ]),
                     dbc.Col(children=[
-                        html.H5("Select Particular Matter"),
+                        html.H6("Select Particular Matter"),
                         dcc.Dropdown(id="matter-select_p",
                                      options=[{"label": x, "value": x}
                                               for x in airtype_list],
                                      value="PM2.5"),
                     ]),
                     dcc.Graph(id='recycle-chart', figure=fig_rc)
-                    # Add the second column here. This is for the figure.
                 ])
-                ]),
-        dcc.Tab(label='Tab three', children=[
-            dcc.Graph(
-                figure={
-                    'data': [
-                        {'x': [1, 2, 3], 'y': [2, 4, 3],
-                            'type': 'bar', 'name': 'SF'},
-                        {'x': [1, 2, 3], 'y': [5, 4, 3],
-                         'type': 'bar', 'name': u'Montréal'},
-                    ]
-                }
-            )
         ]),
     ])
 ])
 
+
+# Second map showing the AQI of cities (heat map)
+@app.callback(
+    [Output(component_id='output-container-date-picker-single', component_property='children'),
+     Output(component_id='mapbox-heatmap', component_property='figure')],
+    [Input('map-date-picker-single', component_property='date')])
+
+def update_map(date_slctd):
+    print(date_slctd)
+    print(type(date_slctd))
+
+    container = "You have selected the date: {}".format(date_slctd)
+
+    dff = df.copy()
+    dff = dff[dff["utc"] == date_slctd]
+
+    fig_heatmap = px.density_mapbox(
+        data_frame=dff,
+        #template='plotly_dark',
+        lat='Latitude',
+        lon='Longitude',
+        z='Total (avg)',
+        radius=20,
+        range_color=[0, 55],
+        center=dict(lat=53.479489, lon=-2.245115),
+        zoom=4.5,
+        mapbox_style='stamen-watercolor')
+    fig_heatmap.update_layout(width=450, height=400, margin=dict(l=0, r=10, t=10, b=0),)
+    return container, fig_heatmap
+
+
+@app.callback(
+    Output('card', 'children'),
+    Input('my-date-picker-single', 'date'),
+    Input("area-select_d", "value"),
+)
+def update_output(date_value, area):
+    if date_value and area is not None:
+        date_object = date.fromisoformat(date_value)
+        date_string = date_object.strftime('%B %d, %Y')
+        data.process_data_for_single_day(area, date_value)
+        ####
+        card = dbc.Card(className="card border-light mb-3", children=[
+            dbc.CardBody([
+                dbc.Row([
+                    html.H4(area, id="card-name", className="card-title"),
+                    html.Br(),
+                    dbc.Col(width=6, children=[
+                        daq.Gauge(id='chart1',
+                              color={"gradient": True, "ranges": {
+                                  "green": [0, 12], "yellow":[12, 35], "red":[35, 55]}},
+                              value=data.day_data['PM2.5'].mean(),
+                              label='PM2.5',
+                              max=80,
+                              min=0,
+                            ),
+                        html.H6("Maximum PM2.5", className="card-title"),
+                        html.H4(data.day_data['PM2.5'].max(),
+                             className="card-text text-dark"),
+                        html.H6("Minimum PM2.5", className="card-title"),
+                        html.H4(data.day_data['PM2.5'].min(),
+                             className="card-text text-dark"),
+                        html.H6("Mean", className="card-title"),
+                        html.H4("{:,.0f}".format(
+                        data.day_data['PM2.5'].mean()), className="card-text text-dark"),
+                ]),
+
+                    dbc.Col(width=6, children=[
+                        daq.Gauge(id='chart2',
+                                  color={"gradient": True, "ranges": {
+                                      "green": [0, 12], "yellow": [12, 35], "red": [35, 55]}},
+                                  value=data.day_data['PM10'].mean(),
+                                  label='PM10',
+                                  max=80,
+                                  min=0,
+                                  ),
+                        html.H6("Maximum PM10", className="card-title"),
+                        html.H4(data.day_data['PM10'].max(),
+                                className="card-text text-dark"),
+                        html.H6("Minimum PM10", className="card-title"),
+                        html.H4(data.day_data['PM10'].min(),
+                                className="card-text text-dark"),
+                        html.H6("Mean", className="card-title"),
+                        html.H4("{:,.0f}".format(
+                        data.day_data['PM10'].mean()), className="card-text text-dark"),
+                    ]),
+            ]),
+        ]),
+        ])
+        return card
+
+@app.callback(
+    Output('comment', 'children'),
+    Input('my-date-picker-single', 'date'),
+    Input("area-select_d", "value"),
+    )
+def update_output(date_value, area):
+    if date_value and area is not None:
+        date_object = date.fromisoformat(date_value)
+        date_string = date_object.strftime('%B %d, %Y')
+        data.process_data_for_single_day(area, date_value)
+
+        if data.day_data['PM2.5'].mean() + data.day_data['PM10'].mean() < 20:
+           return "The air is so good! Let's take a fresh walk!~"
+
+        if 20<= data.day_data['PM2.5'].mean() + data.day_data['PM10'].mean() < 40:
+           return  "Good air quality! What about going outside? "
+
+        if 40<= data.day_data['PM2.5'].mean() + data.day_data['PM10'].mean() < 60:
+           return  "Overall good quality. Slight pollutants in the air but don't worry about it!"
+
+        if 60 <= data.day_data['PM2.5'].mean() + data.day_data['PM10'].mean() < 80:
+           return "Ummm...Seems there is some pollution in the air. "
+
+        if math.isnan(data.day_data['PM2.5'].mean() + data.day_data['PM10'].mean()):
+           return "There is no data about this day."
+
+        else:
+            return "Be careful about the pollution, you can wear a mask to protect yourself!"
+
+        return comment
 
 @ app.callback(
     Output("recycle-chart", "figure"),
@@ -131,48 +297,6 @@ def update_output(start_date, end_date, area_select, matter_select):
             area_select, start_date, end_date)
     fig_rc = rc.create_chart(area_select, matter_select)
     return fig_rc
-
-
-@app.callback(
-    Output('card', 'children'),
-    Input('my-date-picker-single', 'date'),
-    Input("area-select_d", "value"),
-    Input("matter-select_d", "value")
-)
-def update_output(date_value, area, matter):
-    if date_value and area and matter is not None:
-        date_object = date.fromisoformat(date_value)
-        date_string = date_object.strftime('%B %d, %Y')
-        data.process_data_for_single_day(area, date_value)
-        ####
-        card = dbc.Card(className="card border-light mb-3", children=[
-            dbc.CardBody([
-                dbc.Col(width=4, children=[
-                    html.H4(area, id="card-name", className="card-title"),
-                    html.Br(),
-                    daq.Gauge(id='chart',
-                              color={"gradient": True, "ranges": {
-                                  "green": [0, 12], "yellow":[12, 35], "red":[35, 55]}},
-                        value=data.day_data[matter].mean(),
-                        label=matter,
-                        max=100,
-                        min=0,
-                              ),
-                ]),
-                dbc.Col(children=[
-                    html.H6("Maximum"+matter, className="card-title"),
-                    html.H4(data.day_data[matter].max(),
-                        className="card-text text-dark"),
-                    html.H6("Minimum"+matter, className="card-title"),
-                    html.H4(data.day_data[matter].min(),
-                        className="card-text text-dark"),
-                    html.H6("Mean", className="card-title"),
-                    html.H4("{:,.0f}".format(
-                        data.day_data[matter].mean()), className="card-text text-dark"),
-                ]),
-            ]),
-        ])
-        return card
 
 
 if __name__ == '__main__':

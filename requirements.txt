@@ -1,6 +1,9 @@
 pip
 setuptools
+math
+numpy
 pandas
 dash
+dash_daq
 pytest
 dash-bootstrap-components
