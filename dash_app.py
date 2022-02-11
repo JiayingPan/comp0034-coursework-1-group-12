@@ -63,7 +63,6 @@ app.layout = html.Div([
 
         dcc.Tab(label='View Locations', children=[
 
-            # first row here
             dbc.Row([
                 # This is for the London area selector and the statistics panel.
             dbc.Col(width=6, children=[
