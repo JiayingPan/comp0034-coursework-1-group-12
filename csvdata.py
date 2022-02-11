@@ -2,11 +2,6 @@ import numpy as np
 import pandas as pd
 from functools import reduce
 
-if __name__ == '__main__':
-
-    df = pd.read_csv('data/all.csv', parse_dates=['utc'], index_col=['utc'])
-
-
 def clean_data(df):
     df_min = df.resample('D').min()
     df_max = df.resample('D').max()
@@ -27,6 +22,10 @@ def clean_data(df):
         left, right, on=['utc'], how='outer'), dataframe)
     return df_merged
 
+
+if __name__ == '__main__':
+
+   df = pd.read_csv('data/all.csv', parse_dates=['utc'], index_col=['utc'])
 
 # London
 df1 = df[df['location_x'].str.match('London')]
@@ -58,9 +57,7 @@ df_4.insert(2, 'Longitude', '-3.200833')
 
 frames = [df_1, df_2, df_3, df_4]
 df_merged = pd.concat(frames)
-df_merged.to_csv('data/clean_data.csv', index=True, header=True)
-
-df = pd.read_csv('data/clean_data.csv')
+df.reset_index(inplace = True)
 df['utc'] = pd.to_datetime(df['utc']).dt.date
 df['Total (avg)'].replace('', np.nan, inplace=True)
 df.dropna(subset=['Total (avg)'], inplace=True)

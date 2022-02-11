@@ -16,6 +16,8 @@ from dash import Output, Input
 from airdata import RecyclingData
 from chart import RecyclingChart
 
+df = pd.read_csv("Data/min-max-avg.csv")
+
 # Prepare the data set
 data = RecyclingData()
 area = ''
@@ -26,11 +28,11 @@ data.process_data_for_area(area, start, end)
 # Create the figures
 
 # First map showing the location of cities (mapbox)
-
-df = pd.read_csv("Data/min-max-avg.csv")
 # Add your mapbox token here
 mapbox_token = "pk.eyJ1Ijoic3RlcGhhbmllMDYyNSIsImEiOiJja3plcDl3NTQwa2xoMzFtcXdtMGx4Z3U4In0.HJZkpBQj0blh5xUoXXR-VA"
+
 fig_mapbox = go.Figure()
+
 fig_mapbox.add_trace(
     go.Scattermapbox(lat=df["Latitude"], lon=df["Longitude"], text=df["Location"],
                      marker=go.scattermapbox.Marker(size=12, color='rgb(255, 0, 0)', opacity=0.7),
@@ -274,25 +276,28 @@ def update_card(date_value_card, area_card):
 def update_comment(date_value_comment, area_comment):
     if date_value_comment and area_comment is not None:
         data.process_data_for_single_day(area_comment, date_value_comment)
+        total_average = data.day_data['PM2.5'].mean() + data.day_data['PM10'].mean()
+        comment = " "
 
-        if data.day_data['PM2.5'].mean() + data.day_data['PM10'].mean() < 20:
-            return "The air is so good! Let's take a fresh walk!~"
+        if total_average < 20:
+            comment = "The air is so good! Let's take a fresh walk!~"
 
-        if 20 <= data.day_data['PM2.5'].mean() + data.day_data['PM10'].mean() < 40:
-            return "Good air quality! What about going outside? "
+        elif 20 <= total_average < 40:
+            comment = "Good air quality! What about going outside? "
 
-        if 40 <= data.day_data['PM2.5'].mean() + data.day_data['PM10'].mean() < 60:
-            return "Overall good quality. Slight pollutants in the air but don't worry about it!"
+        elif 40 <= total_average < 60:
+            comment = "Overall good quality. Slight pollutants in the air but don't worry about it!"
 
-        if 60 <= data.day_data['PM2.5'].mean() + data.day_data['PM10'].mean() < 80:
-            return "Ummm...Seems there is some pollution in the air. "
+        elif 60 <= total_average < 80:
+            comment = "Ummm...Seems there is some pollution in the air. "
 
-        if math.isnan(data.day_data['PM2.5'].mean() + data.day_data['PM10'].mean()):
-            return "There is no data about this day."
+        elif math.isnan(total_average):
+            comment = "There is no data about this day."
 
         else:
-            return "Be careful about the pollution, you can wear a mask to protect yourself!"
+            comment = "Be careful about the pollution, you can wear a mask to protect yourself!"
 
+        return comment
 
 
 @ app.callback(
