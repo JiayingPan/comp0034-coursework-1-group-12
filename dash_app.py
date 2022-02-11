@@ -3,6 +3,7 @@
 
 # Run this app with `python dash_app.py` and visit http://127.0.0.1:8050/ in your web browser.
 import math
+from datetime import date
 import dash
 import dash_bootstrap_components as dbc
 import pandas as pd
@@ -12,7 +13,6 @@ import dash_daq as daq
 from dash import dcc
 from dash import html
 from dash import Output, Input
-from datetime import date
 from airdata import RecyclingData
 from chart import RecyclingChart
 
@@ -33,8 +33,13 @@ mapbox_token = "pk.eyJ1Ijoic3RlcGhhbmllMDYyNSIsImEiOiJja3plcDl3NTQwa2xoMzFtcXdtM
 fig_mapbox = go.Figure()
 fig_mapbox.add_trace(
     go.Scattermapbox(lat=df["Latitude"], lon=df["Longitude"], text=df["Location"],
-                     marker=go.Marker(size=12),
-                     mode='markers+text', textposition="top center"))
+                     marker=go.scattermapbox.Marker(size=12, color='rgb(255, 0, 0)', opacity=0.7),
+                     mode='markers+text', textposition="top center")),
+
+fig_mapbox.add_trace(
+    go.Scattermapbox(lat=df["Latitude"], lon=df["Longitude"],
+                     marker=go.scattermapbox.Marker(size=6, color='rgb(242, 177, 172)', opacity=0.7),
+                     mode='markers', hoverinfo=None)),
 
 fig_mapbox.update_layout(
     width=450, height=410, margin=dict(l=20, r=0, t=25, b=0),
@@ -70,9 +75,8 @@ app.layout = html.Div([
                 dbc.Col(width=6, children=[
                     html.Br(),
                     #html.H5("scatter mapbox"),
-                    html.H5('View geographic location of air quality in various UK cities:',
-                            style={'text-align': 'center'}),
-                    #html.P('London, Manchester, Cardiff and Edinburgh!'),
+                    html.H5('View air quality in various cities in UK:'),
+                    html.Br(),
                     dcc.Graph(id='scatter-map', figure=fig_mapbox),
                 ]),
                 # ]),
@@ -208,16 +212,14 @@ def update_map(date_slctd):
     Input('my-date-picker-single', 'date'),
     Input("area-select_d", "value"),
 )
-def update_output(date_value, area):
-    if date_value and area is not None:
-        #date_object = date.fromisoformat(date_value)
-        #date_string = date_object.strftime('%B %d, %Y')
-        data.process_data_for_single_day(area, date_value)
+def update_card(date_value_card, area_card):
+    if date_value_card and area_card is not None:
+        data.process_data_for_single_day(area_card, date_value_card)
         ####
         card = dbc.Card(className="card border-light mb-3", children=[
             dbc.CardBody([
                 dbc.Row([
-                    html.H4(area, id="card-name", className="card-title"),
+                    html.H4(area_card, id="card-name", className="card-title"),
                     html.Br(),
                     dbc.Col(width=6, children=[
                         daq.Gauge(id='chart1',
@@ -269,11 +271,9 @@ def update_output(date_value, area):
     Input('my-date-picker-single', 'date'),
     Input("area-select_d", "value"),
 )
-def update_output(date_value, area):
-    if date_value and area is not None:
-        date_object = date.fromisoformat(date_value)
-        date_string = date_object.strftime('%B %d, %Y')
-        data.process_data_for_single_day(area, date_value)
+def update_comment(date_value_comment, area_comment):
+    if date_value_comment and area_comment is not None:
+        data.process_data_for_single_day(area_comment, date_value_comment)
 
         if data.day_data['PM2.5'].mean() + data.day_data['PM10'].mean() < 20:
             return "The air is so good! Let's take a fresh walk!~"
@@ -293,7 +293,6 @@ def update_output(date_value, area):
         else:
             return "Be careful about the pollution, you can wear a mask to protect yourself!"
 
-        return comment
 
 
 @ app.callback(
@@ -303,7 +302,7 @@ def update_output(date_value, area):
     Input("area-select_p", "value"),
     Input("matter-select_p", "value"),
 )
-def update_output(start_date, end_date, area_select, matter_select):
+def update_line_chart(start_date, end_date, area_select, matter_select):
     if start_date and area_select and matter_select is not None:
         data.process_data_for_area(
             area_select, start_date, end_date)
