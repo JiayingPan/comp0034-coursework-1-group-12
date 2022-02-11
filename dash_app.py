@@ -32,14 +32,16 @@ df = pd.read_csv("Data/min-max-avg.csv")
 # Add your mapbox token here
 mapbox_token = "pk.eyJ1Ijoic3RlcGhhbmllMDYyNSIsImEiOiJja3plcDl3NTQwa2xoMzFtcXdtMGx4Z3U4In0.HJZkpBQj0blh5xUoXXR-VA"
 fig_mapbox = go.Figure()
-fig_mapbox.add_trace(go.Scattermapbox(lat=df["Latitude"], lon=df["Longitude"], text=df["Location"],
-                                      marker=go.Marker(size=12),
-                                      mode='markers+text', textposition="top center"))
+fig_mapbox.add_trace(
+    go.Scattermapbox(lat=df["Latitude"], lon=df["Longitude"], text=df["Location"],
+                     marker=go.Marker(size=12),
+                     mode='markers+text', textposition="top center"))
 
-fig_mapbox.update_layout(width=450, height=410, margin=dict(l=20, r=0, t=25, b=0),
-                         hovermode='closest', showlegend=False,
-                         mapbox=dict(accesstoken=mapbox_token,
-                                     center=dict(lat=53.479489, lon=-2.245115), zoom=4.5))
+fig_mapbox.update_layout(
+    width=450, height=410, margin=dict(l=20, r=0, t=25, b=0),
+    hovermode='closest', showlegend=False,
+    mapbox=dict(accesstoken=mapbox_token,
+                center=dict(lat=53.479489, lon=-2.245115), zoom=4.5))
 
 rc = RecyclingChart(data)
 airtype_list = ['PM2.5', 'PM10']
@@ -69,8 +71,8 @@ app.layout = html.Div([
                 dbc.Col(width=6, children=[
                     html.Br(),
                     #html.H5("scatter mapbox"),
-                    html.H5('View geographic location of air quality in various UK cities:', style={
-                            'text-align': 'center'}),
+                    html.H5('View geographic location of air quality in various UK cities:',
+                            style={'text-align': 'center'}),
                     #html.P('London, Manchester, Cardiff and Edinburgh!'),
                     dcc.Graph(id='scatter-map', figure=fig_mapbox),
                 ]),

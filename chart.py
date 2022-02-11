@@ -8,18 +8,18 @@ class RecyclingChart:
     def __init__(self, data):
         self.data = data
 
-    def create_chart(self, area,airtype):
+    def create_chart(self, area, airtype):
         area_data = self.data.recycling_area
         eng_data = self.data.recycling_eng
         area = go.Scatter(x=area_data['utc'], y=area_data[airtype],
                           mode='markers',
                           name=area,
                           line=dict(color='lightseagreen', width=4))
-        
-        eng = go.Scatter(x=eng_data['utc'], y=eng_data[airtype], 
+
+        eng = go.Scatter(x=eng_data['utc'], y=eng_data[airtype],
                          mode='markers',
                          name='London',
-                         line=dict(color='lightblue',width=4))
+                         line=dict(color='lightblue', width=4))
 
         # Create the layout
         layout = go.Layout(showlegend=True, plot_bgcolor="#ffffff")
