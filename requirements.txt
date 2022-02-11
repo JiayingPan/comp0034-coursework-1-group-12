@@ -6,5 +6,3 @@ dash
 dash_daq
 pytest
 dash-bootstrap-components
-plotly.express
-plotly.graph_objects
