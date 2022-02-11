@@ -58,7 +58,7 @@ app.layout = html.Div([
         html.H1('Open Air Quality', style = {'text-align': 'center'}),
         html.P('Particular matters monitoring dashboard',
                className='lead', style = {'text-align': 'center'})
-    ])),
+        ])),
     dcc.Tabs(children=[
 
         dcc.Tab(label='View Locations', children=[
