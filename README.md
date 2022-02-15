@@ -195,8 +195,3 @@ To set up your project:
    will also happen if you forget to stop a previous Dash app and try to start another!). You can try another port by
    modifying the line of code that runs the Dash app to specify a different port number
    e.g. `app.run_server(debug=True, port=1337)`
-
-## Before you submit the coursework
-
-Remove the instruction text above and complete this README.md using the guidance in the coursework specification.
-
