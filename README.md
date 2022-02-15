@@ -27,15 +27,23 @@ We have imitated 5 possible personas that are likely to use the ‘open air qual
 The first broadest user group is commuters, because they have to get to work and get off work every day. For long-term commuting lifestyles, air quality will directly influence people's physical health. At the same time, poor air conditions can also bring a negative impact on mental health. The first persona has shown a commuter at a middle age and with low educational level, who will be interested in the daily matters change. He’s information demonstrated that he may not be able to use and explore software flexibly and is not good at reading complex information, and maybe even need auxiliary information to help his understanding. Therefore, the app page should be made as concise and easy to understand as possible, reduce the provision of complicated information, and describe abstract concepts or diagrams in text to meet the requirements of potential large-scale users with low to secondary education level.
 
 #### Persona 2 --- tourist
+
+
 The second user group that might be interested in the app are tourists, especially the new generation who are proficient in using software to quickly obtain information they want. Those people are usually university students and young workers who have received higher level education and will have a better understanding to data and graphs. Also, as a tourist, he would like to compare air quality in different cities (even different countries if the app is developed more advanced). The challenge is that he will have more requirements on the app, such as more beautiful color matching, faster information acquisition and higher data accuracy. He likes to use apps such as facebook, ins and twitter, so we can try to place ads on these software to increase exposure to the user group and age period.
 
 #### Persona 3 --- environmentalist
+<img width="1060" alt="persona3" src="https://user-images.githubusercontent.com/92019801/138783128-a817141a-8409-4fff-a288-079163b4f3b1.png">
+
  The third user group is environmentalists like Jennifer. She will have a higher frequency of data updates, in order to take immediate action when air quality declines to get the public's attention. Therefore, for the app design, we need to have a stable and continuous data source, and charts of various pollutant types to make comparison to meet her needs for data diversification.
 
 #### Persona 4 --- air forecaster
+<img width="1061" alt="persona4" src="https://user-images.githubusercontent.com/92019801/138784023-0398897c-f4a6-47d0-a716-fcf9343d31f2.png">
+
  The air forecasters are also considered as a user group. Due to her profession, she has very high standards of data reliability to maintain authority and gain public trust. Therefore, the app design still needs to pay attention to the data update frequency and data accuracy.
 
 #### Persona 5 --- air quality specialist
+<img width="1060" alt="persona5" src="https://user-images.githubusercontent.com/92019801/138786087-eb66eb5c-2d83-4a24-b260-8a301f0906de.png">
+
  The last user group is the air quality specialists. They will use the app when they need data to support their research because our software contains very large databases. They may want to find the trend of air quality in a certain place from historical data, so it will be very helpful for them if the software can produce a graph that shows the change of air quality over a certain period of time. Similarly, due to the needs of scientific research, the accuracy and reliability of the data are very important, and charts should be concise and clear, follows 'less ink' format for report reference.
 
 ### Visualization explanation
