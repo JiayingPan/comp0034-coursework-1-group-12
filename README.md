@@ -60,7 +60,7 @@ The first type of map we created is a scatter map, in this map, each location wi
 - Visualization evaluation:
 The map shows the city locations available under the studied dataset, providing a more direct presentation of the geography to users. But there are many similarities with the density heatmap, the map and density heatmap can be merged further to improve the direct visualization to users and save the time for users to read multiple visualizations.
 
-#### Density heatmap
+##### Density heatmap
  
 - Target audience:   
 The graph is prepared for users who are interested and want to compare air quality in multiple locations, including tourists (they may decide their travel destination based on which city has better air quality) and environmentalists (they may launch calls and campaigns to reduce pollution in heavily polluted areas).
