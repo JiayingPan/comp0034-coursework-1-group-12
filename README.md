@@ -22,6 +22,8 @@ Recall the personas listed in COMP0035. Coursework1 for better explanation of wh
 We have imitated 5 possible personas that are likely to use the ‘open air quality app’ according to the age, occupation, education, etc. The difference in these aspects can lead to the different result of motivation to download the app, goals or objectives to use the app, preferred ways to receive the information from the app, and what’s more, even the challenges the software engineers may face when designing the app. The personas are: commuter, tourist, environmentalist, air forecaster and air quality specialist.
 
 #### Persona 1 --- commuter
+<img width="1061" alt="image" src="https://user-images.githubusercontent.com/92019801/138783909-1f019f38-eb66-48b8-8219-dff07ba3bc83.png">
+
 The first broadest user group is commuters, because they have to get to work and get off work every day. For long-term commuting lifestyles, air quality will directly influence people's physical health. At the same time, poor air conditions can also bring a negative impact on mental health. The first persona has shown a commuter at a middle age and with low educational level, who will be interested in the daily matters change. He’s information demonstrated that he may not be able to use and explore software flexibly and is not good at reading complex information, and maybe even need auxiliary information to help his understanding. Therefore, the app page should be made as concise and easy to understand as possible, reduce the provision of complicated information, and describe abstract concepts or diagrams in text to meet the requirements of potential large-scale users with low to secondary education level.
 
 #### Persona 2 --- tourist
