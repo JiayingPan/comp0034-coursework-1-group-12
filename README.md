@@ -150,7 +150,7 @@ Regarding the overall layout of the dash app, the `MINTY` stylesheet was chosen.
 [Linter](https://github.com/ucl-comp0035/comp0034-cw1-g-group-12/blob/master/.github/workflows/pylint.yml) 
 
 ### Requirements
-Install [required python packages](https://github.com/ucl-comp0035/comp0034-cw1-g-group-12/blob/f4db97fba13e5b1f6140233a5bae3a69e160e02f/requirements.txt) from libraries before run the code.
+Install [required python packages](https://github.com/ucl-comp0035/comp0034-cw1-g-group-12/blob/f4db97fba13e5b1f6140233a5bae3a69e160e02f/requirements.txt) from the library before running the code.
  
 #### Users stories
 The user stories that have been met in this visulization are listed below:
