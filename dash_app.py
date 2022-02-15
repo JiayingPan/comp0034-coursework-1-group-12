@@ -43,7 +43,7 @@ fig_mapbox.add_trace(
                      mode='markers', hoverinfo=None)),
 
 fig_mapbox.update_layout(
-    width=450, height=410, margin=dict(l=20, r=0, t=25, b=0),
+    width=570, height=425, margin=dict(l=140, r=0, t=35, b=0),
     hovermode='closest', showlegend=False,
     mapbox=dict(accesstoken=mapbox_token,
                 center=dict(lat=53.479489, lon=-2.245115), zoom=4.5))
@@ -77,18 +77,26 @@ app.layout = html.Div([
                 # This is for the first scatter mapbox
                 dbc.Col(width=6, children=[
                     html.Br(),
-                    html.H5('View air quality in various cities across UK:'),
                     html.Br(),
+                    html.H5('View air quality in various cities across UK:',
+                            style={'text-align': 'center'}),
+                    html.Br(),
+                    html.P('London, Manchester, Cardiff, Edinburgh...',
+                           style={'text-align': 'center'}),
                     dcc.Graph(id='scatter-map', figure=fig_mapbox),
                 ]),
 
                 # Add the second density heatmap here
                 dbc.Col(width=6, children=[
                     html.Br(),
+                    html.Br(),
 
                     dbc.Row([
                         dbc.Col([
-                            html.H5('Select date for heat map:'),
+                            html.H5('Select date for the heatmap:', style={'text-align': 'center'}),
+                            html.Br(),
+                            html.P('view total pollutants amount in each city',
+                                   style={'text-align': 'center'}),
                         ]),
 
                         dbc.Col([
@@ -164,6 +172,7 @@ app.layout = html.Div([
                 # Add the date picker
                 dbc.Col(children=[
                     html.Br(),
+                    html.Br(),
                     html.H6('Select Period'),
                     dcc.DatePickerRange(
                         id='my-date-picker-range',
@@ -178,6 +187,7 @@ app.layout = html.Div([
                 # Add the area/pollutant picker
                 dbc.Col(children=[
                     html.Br(),
+                    html.Br(),
                     html.H6("Select Area"),
                     dcc.Dropdown(id="area-select_p",
                                  options=[{"label": x, "value": x}
@@ -186,6 +196,7 @@ app.layout = html.Div([
                 ]),
 
                 dbc.Col(children=[
+                    html.Br(),
                     html.Br(),
                     html.H6("Select Particular Matter"),
                     dcc.Dropdown(id="matter-select_p",
@@ -221,8 +232,8 @@ def update_map(date_slctd):
         center=dict(lat=53.479489, lon=-2.245115),
         zoom=4.5,
         mapbox_style='stamen-watercolor')
-    fig_heatmap.update_layout(width=450, height=400,
-                              margin=dict(l=0, r=10, t=10, b=0), )
+    fig_heatmap.update_layout(width=550, height=400,
+                              margin=dict(l=30, r=10, t=10, b=0), )
     return container, fig_heatmap
 
 
