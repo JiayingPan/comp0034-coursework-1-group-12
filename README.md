@@ -54,7 +54,8 @@ In this visualization, we have use 3 types of charts to illustrate the data, whi
 A map is a representation of a complete area or a portion of an area in visual form. A map's work is most commonly used to illustrate geography. Here, we have created two maps for different purposes.
 
 ##### Scatter mapbox
- 
+<img width="416" alt="scattermap" src="https://user-images.githubusercontent.com/92019801/154086509-46036151-a88a-4587-ad38-19a15ba9e929.png">
+
 - Target audience:
 This graph is prepared for users who are not familiar for with UK geography, the persona that match this situation might be tourists. 
 
@@ -71,7 +72,8 @@ The first type of map we created is a scatter map, in this map, each location wi
 The map shows the city locations available under the studied dataset, providing a more direct presentation of the geography to users. But there are many similarities with the density heatmap, the map and density heatmap can be merged further to improve the direct visualization to users and save the time for users to read multiple visualizations.
 
 ##### Density heatmap
- 
+<img width="416" alt="density heatmap" src="https://user-images.githubusercontent.com/92019801/154085781-ae85407d-40ab-4f86-a35c-0e53484186c5.png">
+
 - Target audience:   
 The graph is prepared for users who are interested and want to compare air quality in multiple locations, including tourists (they may decide their travel destination based on which city has better air quality) and environmentalists (they may launch calls and campaigns to reduce pollution in heavily polluted areas).
 
@@ -89,7 +91,8 @@ This map is a density heatmap, in this case, it is a map used to find the densit
 The map shows the city locations available under the studied dataset as well as the air pollution information. Though there are many similarities with the scatter map. As mentioned before, these two maps can be merged further to improve the quality of the visualization. Furthermore, the total number of PM2.5 and PM10 cannot sufficiently illustrate the air quality. For improvements, the Air Quality Index (AQI) can be introduced in the density heatmap when more pollutant options are added to the dataset and visualizations in the future.
 
 #### 2.	Gauge chart
- 
+<img width="416" alt="gauge chart" src="https://user-images.githubusercontent.com/92019801/154086186-ca935ca4-bfe7-4655-93d7-32dfbfabb7e7.png">
+
 - Target audience:   
 This graph is designed for users who want to check the daily maximum/minimum/average air quality and relevant suggestions. Therefore, the commuters will be most interested in this graph (they may consider whether to wear some protective measures based on the daily pollution situation).
 
@@ -106,6 +109,7 @@ To answer the first questions, both bar chart or line chart can achieve the purp
 The gauge chart shows the degree of the air pollution using different colors. Users can directly know the level of air pollution and the average pollution value from the chart, but the exact real-time value is not displayed on the gauge chart. Additional information such as minimum, maximum, and average values are given below the graph. The chart can be improved to update the current data in real time in the future, to give the user the most accurate and useful travel advice.
 
 #### 3.	Scatter chart
+<img width="416" alt="scatter chart" src="https://user-images.githubusercontent.com/92019801/154085826-47eb9bc4-46b5-4089-a6b1-04b62987b223.png">
  
 - Target audience:  
 The graph is designed for users who want to know the variation of air quality, such as air quality specialists (they may want to investigate and summarize the rule of variation), air forecaster (they may want to predict the future air quality from the past years’ variation trend) and tourists (they may want to find the time period with best air quality at their destination and plan their travel time).
