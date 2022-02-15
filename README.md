@@ -67,7 +67,7 @@ This graph is prepared for users who are not familiar for with UK geography, the
 - Questions can be answered from this visualization:
 What is the geographic location of each city for the air quality data?   
                                               
-- Data needed from the data set (***text inside ' ' are the column required from the dataset***):                 
+- Data needed from the [data set](https://github.com/ucl-comp0035/comp0034-cw1-g-group-12/blob/e068b1540aebd942c2573d84f9d8e117d5b470ef/data/min-max-avg.csv) (***text inside ' ' are the column required from the dataset***):                 
 The ’longitude’ and ’altitude’ from the dataset of each city has been used to locate the scatter on the mapbox. Besides, the city name from the ’location’ column in the dataframe is used to input as text above the scatter.
 
 - Type of chart and appropriateness:
@@ -86,7 +86,7 @@ The graph is prepared for users who are interested and want to compare air quali
 Which location has the most serious air pollution and which location has the least in a certain day? Does this location always have higher/lower air pollution than other cities or their rankings change everyday? 
 (further research 1: Are there any potential relationship between the air quality and regional development? e.g. more developed areas have higher air quality index) (further research 2: Are there any potential relationship between the air quality and the geographical location? e.g. areas in higher altitude or near the coast will have better air quality)
 
-- Data needed from the data set (***text inside ' ' are the column required from the dataset***):              
+- Data needed from the [data set](https://github.com/ucl-comp0035/comp0034-cw1-g-group-12/blob/e068b1540aebd942c2573d84f9d8e117d5b470ef/data/min-max-avg.csv) (***text inside ' ' are the column required from the dataset***):              
 As it is also a form of map, the ’longitude’ and ’altitude’ from the dataset has been used to locate the cities. Besides, there is a time selection box on the top of the graph for users to select the day they want to check the air quality, so the ‘utc’ in the dataset is used as input to the date picker. Furthermore, it is a density map to demonstrate the pollution severity of different areas, where the severity is represented by the colour of the circle. So the values of 'PM2.5' and 'PM10' from the dataset is required. Mathematical operation has been done to sum and average the daily PM2.5 and PM10 pollutants amount as ‘total (avg)’ to show the general air pollution degree of the area. For example, on this graph, Edinburgh on the day of 01/01/2020 has the least total pollutants amount and has better air quality than other cities.
 
 - Type of chart and appropriateness:   
