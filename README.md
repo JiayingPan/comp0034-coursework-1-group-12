@@ -141,19 +141,28 @@ Regarding the overall layout of the dash app, the `MINTY` stylesheet was chosen.
 
 
 
-
-
-
 ## Creation of the Ploty Dash app containing the visulisations
 [dash app](dash_app.py)
 
+ 
+ 
 ## Evidence of the appropriate use of software engineering and data science tools
 [Linter](https://github.com/ucl-comp0035/comp0034-cw1-g-group-12/blob/master/.github/workflows/pylint.yml) 
 
 The template repository contains a basic structure for coursework 1.
+#### Users stories
+The user stories that have been met in this visulization are listed below:
+| No. | Persona | User Stories | Priority | Has been met |
+| :---: | :---: | --- | :---: | :---: |
+| 1 | Commutor | As a website user, I want to see the air quality change throughout the day. | Must have | 
+| 2 | Commutor | As a website user, I want to be provided some suggested measures based on the data, so as to reduce the thinking time I need to spend when looking at the data. | Could have |  
+| 3 | Commutor | As a website user, I want to be able to see the maximum and minimum values of daily data so that I can make a rough assessment of the range of changes in air quality each day. | Won't have for now |    
+| 4 | Environmentalist | As a website user, I want to see the data of different pollutants so that I can find which contributed most to the air pollution. | Must have |    
+| 5 | Air quality specialist | As a website user, I want to compare the data throughout months or years so that I can find the law of change. | Should have |  
+| 6 | Developer | As a developer, I want to use a web browser as its user interface. | / | Must have |   
+| 7 | Developer | As a developer, I want the web design program shall be written using standard python to run on different operation system. | Must have |
 
-**Do not** use this to determine what to put in the coursework, you must refer to the coursework specification on
-Moodle.
+
 
 ## Instructions for using the starter code
 
