@@ -156,7 +156,7 @@ The user stories that have been met in this visulization are listed below:
 | :---: | :---: | --- | :---: |
 | 1 | Commutor | As a website user, I want to see the air quality change throughout the day. | Must have | 
 | 2 | Commutor | As a website user, I want to be provided some suggested measures based on the data, so as to reduce the thinking time I need to spend when looking at the data. | Could have |  
-| 3 | Commutor | As a website user, I want to be able to see the maximum and minimum values of daily data so that I can make a rough assessment of the range of changes in air quality each day. | Won't have for now |    
+| 3 | Commutor | As a website user, I want to be able to see the maximum and minimum values of daily data so that I can make a rough assessment of the range of changes in air quality each day. | Could have |    
 | 4 | Environmentalist | As a website user, I want to see the data of different pollutants so that I can find which contributed most to the air pollution. | Must have |    
 | 5 | Air quality specialist | As a website user, I want to compare the data throughout months or years so that I can find the law of change. | Should have |  
 | 6 | Developer | As a developer, I want to use a web browser as its user interface. | Must have |   
