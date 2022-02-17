@@ -4,7 +4,7 @@
 ## Technical information
 ### Repository URL
 [Repository](https://github.com/ucl-comp0035/comp0034-cw1-g-group-12.git)
-
+[Dash App video](https://youtu.be/p26JKNKOiH8)
 ### Set-up instructions
 
 Assume that requirements will be installed from requirements.txt.
