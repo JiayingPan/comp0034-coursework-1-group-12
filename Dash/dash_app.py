@@ -13,8 +13,8 @@ import dash_daq as daq
 from dash import dcc
 from dash import html
 from dash import Output, Input
-from airdata import RecyclingData
-from chart import RecyclingChart
+from Dash.airdata import RecyclingData
+from Dash.chart import RecyclingChart
 
 # Prepare the data set
 data = RecyclingData()
@@ -116,7 +116,7 @@ app.layout = html.Div([
                         dcc.Graph(id='mapbox-heatmap', figure={}),
                     ]),
                 ]),
-            ]),
+            ], className="mx-auto rounded", style={"position": "absolute"}),
         ]),
 
         # Second tab display the daily pollutant matters
@@ -162,7 +162,7 @@ app.layout = html.Div([
                 dbc.Col(children=[
                     html.Div(id='card')
                 ]),
-            ])
+            ]),
         ]),
 
         # Third tab display the past data variation

@@ -13,12 +13,12 @@ class RecyclingChart:
         area = go.Scatter(x=area_data['utc'], y=area_data[airtype],
                           mode='markers',
                           name=area,
-                          line=dict(color='lightseagreen', width=4))
+                          line=dict(color='lightseagreen', width=0.1))
 
         eng = go.Scatter(x=eng_data['utc'], y=eng_data[airtype],
                          mode='markers',
                          name='London',
-                         line=dict(color='lightblue', width=4))
+                         line=dict(color='lightblue', width=0.1))
 
         # Create the layout
         layout = go.Layout(showlegend=True, plot_bgcolor="#ffffff")
