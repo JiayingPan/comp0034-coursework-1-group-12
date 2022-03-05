@@ -142,7 +142,7 @@ Regarding the overall layout of the dash app, the `MINTY` stylesheet was chosen.
 
 
 ## Creation of the Ploty Dash app containing the visulisations
-[dash app](Dash/dash_app.py)
+[dash app](dash_app.py)
 
  
  

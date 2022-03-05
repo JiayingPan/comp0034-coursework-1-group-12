@@ -13,8 +13,8 @@ import dash_daq as daq
 from dash import dcc
 from dash import html
 from dash import Output, Input
-from Dash.airdata import RecyclingData
-from Dash.chart import RecyclingChart
+from airdata import RecyclingData
+from chart import RecyclingChart
 
 # Prepare the data set
 data = RecyclingData()
